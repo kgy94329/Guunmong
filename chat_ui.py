@@ -1,23 +1,17 @@
 import streamlit as st
 import time
-
-if 'sidebar_open' not in st.session_state:
-    st.session_state.sidebar_open = False
-
-if st.button('열기/닫기'):
-    st.session_state.sidebar_open = not st.session_state.sidebar_open
-    
+  
 # 세션 상태에 채팅 기록 저장
 if "messages" not in st.session_state:
     st.session_state["messages"] = []
     
 st.title("Streamlit chat Example")
 
-def sidebar_place():
-    st.markdown('사이드 메뉴')
-    st.write('- 메뉴 1')
-    st.write('- 메뉴 2')
-    
+page1 = st.Page("pages/page1.py", title= 'Page1')
+page2 = st.Page("pages/page2.py", title= 'Page2')
+
+pg = st.navigation([page1, page2])
+pg.run()
 def chat_place():
     # 채팅 기록 출력
     for msg in st.session_state["messages"]:
@@ -50,12 +44,4 @@ def chat_place():
             
         # 챗봇 응답 저장
         st.session_state['messages'].append({'role': 'assistant', 'content': response})
-        
-if st.session_state.sidebar_open:
-    col1, col2 = st.columns([1, 3])
-    with col1:
-        sidebar_place()
-    with col2:
-        chat_place()
-else:
-    chat_place()
+chat_place()
