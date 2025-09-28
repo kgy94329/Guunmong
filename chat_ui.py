@@ -7,13 +7,13 @@ if "messages" not in st.session_state:
     
 st.title("Streamlit chat Example")
 
-page1 = st.Page("pages/chatting_page.py", title= 'Page1', icon= ":material/smart_toy:")
-page2 = st.Page("pages/page2.py", title= 'Page2')
+page1 = st.Page("pages/chatting_page.py", title= 'AI chatbot', icon= ":material/smart_toy:")
+page2 = st.Page("pages/page2.py", title= 'AI Storytelling', icon= ":material/auto_stories:")
 
 pg = st.navigation(
     {
         "Chatting": [page1],
-        "Setting": [page2]
+        "Storytelling": [page2]
     }
 )
 pg.run()
