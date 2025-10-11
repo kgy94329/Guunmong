@@ -6,6 +6,10 @@ from functions.tts_functions import get_synthesizer
 from functions.llm_functions import create_response
 import tempfile
 
+ELEVENLABS_VOCAL_NAMES = [
+    'Anna Kim', '고윤정', 'Taemin'
+]
+
 # 최초 실행 시만 설정
 if "tts_model" not in st.session_state:
     st.session_state.tts_model = get_synthesizer('ElevenLabs', 'Anna Kim')
@@ -26,8 +30,8 @@ with st.popover(":material/instant_mix: 음성 설정"):
     vocal_option = ''
     if model_option == 'Google':
         vocal_option = st.selectbox("음성 선택", ('Kore'))
-    else:
-        vocal_option = st.selectbox('음성 선택', ('Anna Kim'))
+    else:  
+        vocal_option = st.selectbox('음성 선택', ELEVENLABS_VOCAL_NAMES)
 
     if st.button('적용', type='primary'):
         st.session_state.tts_model = get_synthesizer(model_option, vocal_option)
@@ -44,8 +48,9 @@ for msg in st.session_state["messages"]:
 
 # 입력창
 if prompt := st.chat_input('메시지를 입력하세요...'):
+    input_format = {'role': 'user', 'content': prompt}
     # 사용자 메시지 저장
-    st.session_state['messages'].append({'role': 'user', 'content': prompt})
+    st.session_state['messages'].append(input_format)
     
     # 화면에 메시지 출력
     with st.chat_message('user'):
@@ -57,10 +62,10 @@ if prompt := st.chat_input('메시지를 입력하세요...'):
         placeholder.markdown("⏳ 음성 변환 중...")
         
         # GPT 답변 생성
-        # response = create_response(prompt)
+        response = create_response(input_format)
 
         # 테스트 코드
-        response = prompt
+        # response = prompt
         
         # 음성 합성
         tts_model = st.session_state.tts_model

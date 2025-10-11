@@ -15,7 +15,11 @@ from dotenv import load_dotenv
 from google import genai
 from google.genai import types
 
-ELEVENLABS_VOCAL = {'Anna Kim': 'uyVNoMrnUku1dZyVEXwD'}
+ELEVENLABS_VOCAL = {
+    'Anna Kim': 'uyVNoMrnUku1dZyVEXwD',
+    '고윤정': 'S8IIf77q99OgYuPS5P9n',
+    'Taemin' : 'Ir7oQcBXWiq4oFGROCfj'
+}
 
 class TTSStrategy(ABC):
     @abstractmethod
@@ -38,7 +42,7 @@ class ElevenLabsTTS(TTSStrategy):
             voice_id=self.vocal,
             output_format="mp3_44100_128",
             text= text,
-            model_id="eleven_multilingual_v2",
+            model_id="eleven_v3",
         )
 
         # 음성 데이터 처리
